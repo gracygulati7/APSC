@@ -19,18 +19,23 @@ For each medical condition, we have employed various machine learning algorithms
 - **Autism**:
   - Algorithm: Logistic Regression
   - Techniques: Feature engineering and cross-validation.
+  - Dataset(Autism Toddler) :  https://www.kaggle.com/datasets/fabdelja/autism-screening-for-toddlers
+  - Dataset(Autism Adults) : https://www.kaggle.com/datasets/andrewmvd/autism-screening-on-adults?resource=download
 
 - **Parkinson's Disease**:
-  - Algorithm: Support Vector Machine (SVM)
-  - Techniques: Kernel methods and hyperparameter tuning.
+  - Algorithm : Support Vector Machine (SVM)
+  - Techniques : Kernel methods and hyperparameter tuning.
+  - Dataset : https://www.kaggle.com/datasets/vikasukani/parkinsons-disease-data-set
 
 - **Stroke**:
-  - Algorithm: Random Forest, logistic regression, svm, decision tree, naive bayes
-  - Techniques: Feature importance analysis and ensemble techniques.
+  - Algorithm : Random Forest, logistic regression, svm, decision tree, naive bayes
+  - Techniques : Feature importance analysis and ensemble techniques.
+  - Dataset : https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset
 
 - **Covid-19**:
-  - Algorithms: Logistic Regression, SVM and decision trees
-  - Techniques: Data balancing using SMOTE and feature scaling for normalization.
+  - Algorithms : Logistic Regression, SVM and decision trees
+  - Techniques : Data balancing using SMOTE and feature scaling for normalization.
+  - Dataset : https://www.kaggle.com/datasets/krishnaiitm/covid-19-clean-completecsv
 
 Each model is trained and evaluated using appropriate techniques to ensure robustness and accuracy in predictions.
 
@@ -41,7 +46,9 @@ The models have been evaluated using standard performance metrics such as accura
 Users can clone the repository, preprocess the datasets, train the models using provided scripts, and make predictions on new data. Instructions for data preprocessing, model training, and prediction are provided in the respective directories.
 
 ### Contact:
-For inquiries, feedback, or collaboration opportunities, feel free to contact:
+For inquiries, feedback, or collaboration opportunities, feel free to contact our team APSC :
 
-- **APSC TEAM**
-
+- ![Gunn Arora](https://www.linkedin.com/in/gunn-arora-3a0a9b291/)
+- ![Gracy Gulati](https://www.linkedin.com/in/gracy-gulati-956061292/)
+- ![Parth Batra](https://www.linkedin.com/in/parth-batra-1aa633259/)
+- ![Guransh Singh](https://www.linkedin.com/in/guransh-singh-336b4a254/)
