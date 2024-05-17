@@ -6,7 +6,7 @@ This repository contains machine learning models and techniques for predicting A
 The project focuses on utilizing machine learning algorithms to analyze relevant datasets and develop predictive models for each condition. By training on diverse datasets and employing advanced techniques, we aim to achieve accurate predictions that can assist healthcare professionals in decision-making and patient care.
 
 ### Datasets:
-We have sourced publicly available datasets for each medical condition:
+We have sourced publicly available datasets on Kaggle for each medical condition:
 
 - **Autism**: The Autism Screening Adult Data includes demographic and behavioral features for individuals to predict autism spectrum disorder (ASD).
 - **Parkinson's Disease**: The Parkinson's Telemonitoring Data provides voice recordings and clinical measurements for predicting the severity of Parkinson's disease symptoms.
