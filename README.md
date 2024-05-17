@@ -48,7 +48,7 @@ Users can clone the repository, preprocess the datasets, train the models using 
 ### Contact:
 For inquiries, feedback, or collaboration opportunities, feel free to contact our team APSC :
 
-- ![Gunn Arora](https://www.linkedin.com/in/gunn-arora-3a0a9b291/)
-- ![Gracy Gulati](https://www.linkedin.com/in/gracy-gulati-956061292/)
-- ![Parth Batra](https://www.linkedin.com/in/parth-batra-1aa633259/)
-- ![Guransh Singh](https://www.linkedin.com/in/guransh-singh-336b4a254/)
+- [Gunn Arora](https://www.linkedin.com/in/gunn-arora-3a0a9b291/)
+- [Gracy Gulati](https://www.linkedin.com/in/gracy-gulati-956061292/)
+- [Parth Batra](https://www.linkedin.com/in/parth-batra-1aa633259/)
+- [Guransh Singh](https://www.linkedin.com/in/guransh-singh-336b4a254/)
