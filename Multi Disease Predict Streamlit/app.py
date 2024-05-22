@@ -6,7 +6,15 @@ import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
 import matplotlib.pyplot as plt
+import seaborn as sns
+from prophet import Prophet
+from prophet.plot import plot_plotly
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
+st.set_page_config(
+    layout='wide'
+)
 
 # loading the saved models
 
@@ -14,20 +22,24 @@ diabetes_model = pickle.load(open("./models/diabetes_model.sav",'rb'))
 parkinsons_model = pickle.load(open("./models/parkinsons_model.sav",'rb'))
 lung_cancer_model = pickle.load(open("./models/lung_cancer.sav",'rb'))
 
-
 # sidebar navigation
 with st.sidebar:
-    
     selected = option_menu('Multiple Disease Prediction System', 
                            [ 'Diabetes Prediction',
                             'Parkinson\'s Prediction',
                             'Stroke Prediction', 'Autism Prediction' , 'Depression Prediction', 'Lung Cancer Prediction', 'Covid Prediction'],
                            icons=['heart','activity','person','gender-female'],
                            default_index=0)
-
-
-
-
+    
+#Covid-19 Prediction
+df1=pd.read_csv("./dataFiles/Covid-19 Predictions.csv")
+x1=df1.drop("Infected with Covid19",axis=1)
+x1=np.array(x1)
+y1=pd.DataFrame(df1["Infected with Covid19"])
+y1=np.array(y1)
+x1_train,x1_test,y1_train,y1_test=train_test_split(x1,y1,test_size=0.2,random_state=0)
+model1=RandomForestClassifier()
+model1.fit(x1_train,y1_train)
 
 # Diabetes Prediction Page
 if (selected == 'Diabetes Prediction'):
@@ -79,10 +91,6 @@ if (selected == 'Diabetes Prediction'):
               diab_diagnosis = 'The person is not diabetic'
         
     st.success(diab_diagnosis)  
-  
-
-    
-
 
 # Parkinsons Prediction Page  
 if (selected == 'Parkinson\'s Prediction'):    
@@ -386,3 +394,43 @@ if selected == 'Lung Cancer Prediction':
             cancer_diagnosis = 'The patient has lung cancer.'
         
     st.success(cancer_diagnosis)
+
+if selected == 'Covid Prediction':
+    st.title('Covid Prediction using ML')
+    st.write("All The Values Should Be In Range Mentioned")
+    drycough=st.number_input("Rate Of Dry Cough (0-20)",min_value=0,max_value=20,step=1)
+    fever=st.number_input("Rate Of Fever (0-20)",min_value=0,max_value=20,step=1)
+    sorethroat=st.number_input("Rate Of Sore Throat (0-20)",min_value=0,max_value=20,step=1)
+    breathingprob=st.number_input("Rate Of Breathing Problem (0-20)",min_value=0,max_value=20,step=1)
+    prediction1=model1.predict([[drycough,fever,sorethroat,breathingprob]])[0]
+
+    if st.button("Predict"):
+        if prediction1=="Yes":
+            st.warning("The Patient is Affected By Covid-19")
+        elif prediction1=="No":
+            st.success("The Patient is not Affected By Covid-19")
+
+    st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
+    st.write('Developing a COVID-19 prediction web app with Prophet for forecasting, Plotly for interactive visualizations, and Streamlit for a user-friendly interface.')
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+# Data Collection
+    df = pd.read_csv('./dataFiles/covid_19_clean_complete.csv')
+    df.drop(columns=['Province/State','WHO Region'],inplace=True)
+    df.rename(columns={'Country/Region':'Country'},inplace=True)
+    df['Date'] = pd.to_datetime(df['Date'])
+
+    st.write("### Spread of Covid 19 Across the World")
+
+# Create Density MApbox  
+    fig = px.density_mapbox(df, lat="Lat", lon="Long",
+                        hover_data=["Country", "Confirmed"],
+                        z="Confirmed", radius=20, zoom=0,
+                        range_color=[0, 1000], mapbox_style='carto-positron',
+                        animation_frame='Date',
+                        title="Spread of Covid-19",
+                        )
+    fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    st.plotly_chart(fig)
+    st.markdown("<br>", unsafe_allow_html=True)
