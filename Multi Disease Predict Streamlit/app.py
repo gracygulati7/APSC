@@ -3,12 +3,8 @@ import streamlit as st
 import numpy as np
 from streamlit_option_menu import option_menu 
 import pandas as pd
-import plotly.graph_objects as go
 import plotly.express as px
 import matplotlib.pyplot as plt
-import seaborn as sns
-from prophet import Prophet
-from prophet.plot import plot_plotly
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
@@ -16,21 +12,6 @@ st.set_page_config(
     layout='wide'
 )
 
-# loading the saved models
-
-diabetes_model = pickle.load(open("./models/diabetes_model.sav",'rb'))
-parkinsons_model = pickle.load(open("./models/parkinsons_model.sav",'rb'))
-lung_cancer_model = pickle.load(open("./models/lung_cancer.sav",'rb'))
-
-# sidebar navigation
-with st.sidebar:
-    selected = option_menu('Multiple Disease Prediction System', 
-                           [ 'Diabetes Prediction',
-                            'Parkinson\'s Prediction',
-                            'Stroke Prediction', 'Autism Prediction' , 'Depression Prediction', 'Lung Cancer Prediction', 'Covid Prediction'],
-                           icons=['heart','activity','person','gender-female'],
-                           default_index=0)
-    
 #Covid-19 Prediction
 df1=pd.read_csv("./dataFiles/Covid-19 Predictions.csv")
 x1=df1.drop("Infected with Covid19",axis=1)
@@ -40,6 +21,24 @@ y1=np.array(y1)
 x1_train,x1_test,y1_train,y1_test=train_test_split(x1,y1,test_size=0.2,random_state=0)
 model1=RandomForestClassifier()
 model1.fit(x1_train,y1_train)
+
+# loading the saved models
+
+diabetes_model = pickle.load(open("./models/diabetes_model.sav",'rb'))
+parkinsons_model = pickle.load(open("./models/parkinsons_model.sav",'rb'))
+lung_cancer_model = pickle.load(open("./models/lung_cancer.sav",'rb'))
+
+# sidebar navigation
+with st.sidebar:
+    
+    selected = option_menu('Multiple Disease Prediction System', 
+                           [ 'Diabetes Prediction',
+                            'Parkinson\'s Prediction',
+                            'Stroke Prediction', 'Autism Prediction' , 'Lung Cancer Prediction', 'Covid Prediction' , 'Anemia Prediction' ],
+                           icons=['activity','person','','gender-female', 'lungs', 'virus', 'heart'],
+                           default_index=0)
+
+
 
 # Diabetes Prediction Page
 if (selected == 'Diabetes Prediction'):
@@ -91,6 +90,10 @@ if (selected == 'Diabetes Prediction'):
               diab_diagnosis = 'The person is not diabetic'
         
     st.success(diab_diagnosis)  
+  
+
+    
+
 
 # Parkinsons Prediction Page  
 if (selected == 'Parkinson\'s Prediction'):    
@@ -305,50 +308,6 @@ if selected == 'Stroke Prediction':
             stroke_diag = "you didn't have a stroke"
             st.success(stroke_diag)
 
-if selected == 'Depression Prediction':
-    st.title('Depression Prediction using ML')
-    model_depression = pickle.load(open('./models/bagging_model1.pickle', 'rb'))
-
-    q1 = st.selectbox('Little interest or pleasure in doing things?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q2 = st.selectbox('Feeling down, depressed, or hopeless?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q3 = st.selectbox('Trouble falling or staying asleep, or sleeping too much?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q4 = st.selectbox('Feeling tired or having little energy?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q5 = st.selectbox('Poor appetite or overeating?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q6 = st.selectbox('Feeling bad about yourself - or that you are a failure or have let yourself or your family down?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q7 = st.selectbox('Trouble concentrating on things, such as reading the newspaper or watching television?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q8 = st.selectbox('Moving or speaking so slowly that other people could have noticed? Or the opposite - being so fidgety or restless that you have been moving around a lot more than usual?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    q9 = st.selectbox('Thoughts that you would be better off dead, or of hurting yourself in some way?', ['Not at all', 'Several Days','More than half the days','Nearly Everyday'])
-    
-    Q1 = 0 if q1 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q2 = 0 if q2 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q3 = 0 if q3 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q4 = 0 if q4 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q5 = 0 if q5 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q6 = 0 if q6 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q7 = 0 if q7 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q8 = 0 if q8 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-    Q9 = 0 if q9 == 'More than half the days' else 1 if q1 == 'Nearly Everyday' else 2 if q1 == 'Not at all' else 3
-
-    attrition = ''
-
-    if st.button('Depression Prediction Result'):
-        input_data_as_numpy_array = np.asarray([Q1,Q2,Q3,Q4,Q5,Q6,Q7,Q8,Q9])
-        input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
-
-        prediction = model_depression.predict(input_data_reshaped)
-        if(prediction[0] == 0):
-            attrition = 'mild depression'
-        elif(prediction[0] == 1):
-            attrition = 'moderate depression'
-        elif(prediction[0] == 2):
-            attrition = 'moderately severe depression'
-        elif(prediction[0] == 3):
-            attrition = 'severe depression'
-        else:
-            attrition = 'Severe depression'
-
-    st.success(attrition)
-
 if selected == 'Lung Cancer Prediction':
     st.title('Lung Cancer Prediction using ML')
     col1, col2, col3 = st.columns (3)
@@ -434,3 +393,24 @@ if selected == 'Covid Prediction':
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig)
     st.markdown("<br>", unsafe_allow_html=True)
+
+if selected == 'Anemia Prediction':
+    st.title('Anemia Prediction using ML')
+    anemia_model = pickle.load(open('./models/anemia_model.sav', 'rb'))
+    Gender = st.text_input('Gender')
+    Hemoglobin = st.text_input('Enter the amount of protein in red blood cells')
+    MCH = st.text_input('Enter the average amount in each red blood cell')
+    MCHC = st.text_input('Enter the average concentration of hemoglobin')
+    MCV = st.text_input('Enter your average red blood cell')
+
+    anemia_diagnosis = ''
+
+    if st.button('Test Prediction'):
+        ane_prediction = anemia_model.predict([[Gender, Hemoglobin, MCH, MCHC, MCV]])
+        if ane_prediction[0] == 1:
+            anemia_diagnosis = 'The patient has anemia'
+        else:
+            anemia_diagnosis = 'The patient does not have anemia'
+        
+        st.success(anemia_diagnosis)
+    
