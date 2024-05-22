@@ -3,16 +3,36 @@ import streamlit as st
 import numpy as np
 from streamlit_option_menu import option_menu 
 import pandas as pd
+import plotly.graph_objects as go
 import plotly.express as px
 import matplotlib.pyplot as plt
+import seaborn as sns
+from prophet import Prophet
+from prophet.plot import plot_plotly
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 
 st.set_page_config(
+    page_title='Multiple Disease Prediction System',
+    page_icon='🩺',
     layout='wide'
 )
 
-#Covid-19 Prediction
+# loading the saved models
+diabetes_model = pickle.load(open("./models/diabetes_model.sav",'rb'))
+parkinsons_model = pickle.load(open("./models/parkinsons_model.sav",'rb'))
+lung_cancer_model = pickle.load(open("./models/lung_cancer.sav",'rb'))
+
+# sidebar navigation
+with st.sidebar:
+    selected = option_menu('Multiple Disease Prediction System', 
+                           [ 'Diabetes Prediction',
+                            'Parkinson\'s Prediction',
+                            'Stroke Prediction', 'Autism Prediction' , 'Lung Cancer Prediction', 'Covid Prediction' , 'Anemia Prediction'],
+                           icons=['activity','person','','gender-female', 'lungs', 'virus', 'heart'],
+                           default_index=0)
+    
+# Covid-19 Prediction
 df1=pd.read_csv("./dataFiles/Covid-19 Predictions.csv")
 x1=df1.drop("Infected with Covid19",axis=1)
 x1=np.array(x1)
@@ -21,24 +41,6 @@ y1=np.array(y1)
 x1_train,x1_test,y1_train,y1_test=train_test_split(x1,y1,test_size=0.2,random_state=0)
 model1=RandomForestClassifier()
 model1.fit(x1_train,y1_train)
-
-# loading the saved models
-
-diabetes_model = pickle.load(open("./models/diabetes_model.sav",'rb'))
-parkinsons_model = pickle.load(open("./models/parkinsons_model.sav",'rb'))
-lung_cancer_model = pickle.load(open("./models/lung_cancer.sav",'rb'))
-
-# sidebar navigation
-with st.sidebar:
-    
-    selected = option_menu('Multiple Disease Prediction System', 
-                           [ 'Diabetes Prediction',
-                            'Parkinson\'s Prediction',
-                            'Stroke Prediction', 'Autism Prediction' , 'Lung Cancer Prediction', 'Covid Prediction' , 'Anemia Prediction' ],
-                           icons=['activity','person','','gender-female', 'lungs', 'virus', 'heart'],
-                           default_index=0)
-
-
 
 # Diabetes Prediction Page
 if (selected == 'Diabetes Prediction'):
@@ -90,10 +92,6 @@ if (selected == 'Diabetes Prediction'):
               diab_diagnosis = 'The person is not diabetic'
         
     st.success(diab_diagnosis)  
-  
-
-    
-
 
 # Parkinsons Prediction Page  
 if (selected == 'Parkinson\'s Prediction'):    
@@ -308,6 +306,8 @@ if selected == 'Stroke Prediction':
             stroke_diag = "you didn't have a stroke"
             st.success(stroke_diag)
 
+
+
 if selected == 'Lung Cancer Prediction':
     st.title('Lung Cancer Prediction using ML')
     col1, col2, col3 = st.columns (3)
@@ -369,10 +369,8 @@ if selected == 'Covid Prediction':
         elif prediction1=="No":
             st.success("The Patient is not Affected By Covid-19")
 
-    st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
-    st.write('Developing a COVID-19 prediction web app with Prophet for forecasting, Plotly for interactive visualizations, and Streamlit for a user-friendly interface.')
-
-    st.markdown("<br>", unsafe_allow_html=True)
+    # st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
+    # st.markdown("<br>", unsafe_allow_html=True)
 
 # Data Collection
     df = pd.read_csv('./dataFiles/covid_19_clean_complete.csv')
@@ -394,6 +392,11 @@ if selected == 'Covid Prediction':
     st.plotly_chart(fig)
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
+    # st.markdown("<br>", unsafe_allow_html=True)
+
+
+
 if selected == 'Anemia Prediction':
     st.title('Anemia Prediction using ML')
     anemia_model = pickle.load(open('./models/anemia_model.sav', 'rb'))
@@ -413,4 +416,3 @@ if selected == 'Anemia Prediction':
             anemia_diagnosis = 'The patient does not have anemia'
         
         st.success(anemia_diagnosis)
-    
