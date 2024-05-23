@@ -354,8 +354,8 @@ if selected == 'Covid Prediction':
         elif prediction1=="No":
             st.success("The Patient is not Affected By Covid-19")
 
-    # st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
-    # st.markdown("<br>", unsafe_allow_html=True)
+    st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
+    st.markdown("<br>", unsafe_allow_html=True)
 
 # Data Collection
     df = pd.read_csv('./dataFiles/covid_19_clean_complete.csv')
@@ -375,9 +375,6 @@ if selected == 'Covid Prediction':
                         )
     fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     st.plotly_chart(fig)
-
-    # st.image('covid-19-image.jpg',caption='Covid-19',use_column_width=True)
-    # st.markdown("<br>", unsafe_allow_html=True)
 
 
 # Anemia Prediction Page
