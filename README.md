@@ -68,5 +68,3 @@ For inquiries, feedback, or collaboration opportunities, feel free to contact ou
 
 - [Gunn Arora](https://www.linkedin.com/in/gunn-arora-3a0a9b291/)
 - [Gracy Gulati](https://www.linkedin.com/in/gracy-gulati-956061292/)
-- [Parth Batra](https://www.linkedin.com/in/parth-batra-1aa633259/)
-- [Guransh Singh](https://www.linkedin.com/in/guransh-singh-336b4a254/)
